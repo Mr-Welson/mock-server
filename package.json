@@ -1,0 +1,14 @@
+{
+  "name": "services-demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "koa": "^2.7.0",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.4.0",
+    "mockjs": "^1.0.1-beta3"
+  }
+}
