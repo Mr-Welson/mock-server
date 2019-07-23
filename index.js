@@ -3,7 +3,7 @@ const Router = require('koa-router');
 const cors = require('koa-cors');
 const mockApi = require('./mock');
 
-const { demo } = mockApi;
+const { demo,onlineMonitor } = mockApi;
 
 const app = new Koa();
 const router = new Router();
@@ -19,6 +19,11 @@ const parseApi = (api) => {
 demo && Object.keys(demo).forEach(api => {
   const [method, url] = parseApi(api);
   router[method](url, demo[api]);
+})
+
+onlineMonitor && Object.keys(onlineMonitor).forEach(api => {
+  const [method, url] = parseApi(api);
+  router[method](url, onlineMonitor[api]);
 })
 
 app.use(cors());
