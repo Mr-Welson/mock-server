@@ -1,8 +1,11 @@
 const demo = require('./demo');
-const onlineMonitor = require('./onlineMonitor');
+const operation = require('./project/operation');
+const poga = require('./project/paga');
+
 const mockApi = {
   demo,
-  onlineMonitor,
+  operation,
+  poga
 }
 
 module.exports = mockApi;

@@ -1,9 +1,10 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+var bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
 const mockApi = require('./mock');
 
-const { demo,onlineMonitor } = mockApi;
+const { demo, operation,poga } = mockApi;
 
 const app = new Koa();
 const router = new Router();
@@ -19,14 +20,20 @@ const parseApi = (api) => {
 demo && Object.keys(demo).forEach(api => {
   const [method, url] = parseApi(api);
   router[method](url, demo[api]);
+});
+
+operation && Object.keys(operation).forEach(api => {
+  const [method, url] = parseApi(api);
+  router[method](url, operation[api]);
 })
 
-onlineMonitor && Object.keys(onlineMonitor).forEach(api => {
+poga && Object.keys(poga).forEach(api => {
   const [method, url] = parseApi(api);
-  router[method](url, onlineMonitor[api]);
+  router[method](url, poga[api]);
 })
 
 app.use(cors());
+app.use(bodyParser()); // 解析请求参数
 app.use(router.routes());
 
 const port = 5002;

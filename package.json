@@ -10,5 +10,8 @@
     "koa-cors": "0.0.16",
     "koa-router": "^7.4.0",
     "mockjs": "^1.0.1-beta3"
+  },
+  "dependencies": {
+    "koa-bodyparser": "^4.2.1"
   }
 }
