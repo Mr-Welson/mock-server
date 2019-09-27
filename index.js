@@ -4,7 +4,7 @@ var bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
 const mockApi = require('./mock');
 
-const { demo, operation } = mockApi;
+const { demo, operation, poga } = mockApi;
 
 const app = new Koa();
 const router = new Router();
@@ -25,6 +25,11 @@ demo && Object.keys(demo).forEach(api => {
 operation && Object.keys(operation).forEach(api => {
   const [method, url] = parseApi(api);
   router[method](url, operation[api]);
+})
+
+poga && Object.keys(poga).forEach(api => {
+  const [method, url] = parseApi(api);
+  router[method](url, poga[api]);
 })
 
 app.use(cors());

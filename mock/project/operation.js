@@ -2,67 +2,62 @@ const Mock = require('mockjs');
 
 const demoApi = {
   // 获取生命周期
-  [`POST /mock/user/v1/queryLifecycle`](ctx) {
+  [`POST /mock/user/v1/organization/queryChildOrganizationsById`](ctx) {
     const params = ctx.request.body;
+    const rootId = Mock.mock("@id");
+    const rootOrg = Mock.mock({
+      "id": rootId,
+      "createTime": "@now",
+      "operationCenterId": "1001",
+      "organizationCode": "@integer(100000, 999999)",
+      "organizationDescription": "@csentence",
+      "organizationName": "根组织",
+      "organizationSort": 1,
+      "isMerchant": "false",
+    })
+    const Lv1_org = Mock.mock({
+      "list|10-20": [{
+        "id": "@id",
+        "createTime": "@now",
+        "operationCenterId": "1001",
+        "organizationCode": "@integer(100000, 999999)",
+        "organizationDescription": "@csentence",
+        "organizationName": "二级组织" + "@increment" ,
+        "organizationSort": 1,
+        "isMerchant": "false",
+        "parentId": rootId
+      }]
+    })
+    const Lv2_ID = Lv1_org.map(v => v.id);
+    const length = Lv2_ID.length;
+    const Lv2_org = Mock.mock({
+      "list|100-150": [{
+        "id": "@id",
+        "createTime": "@now",
+        "operationCenterId": "1001",
+        "organizationCode": "@integer(100000, 999999)",
+        "organizationDescription": "@csentence",
+        "organizationName": "三级组织" + "@ctitle" ,
+        "organizationSort": 1,
+        "isMerchant": "false",
+        "parentId": function () {
+          return Lv2_ID[`@natural(0, ${length})`]
+        }
+      }]
+    })
+    const list = [].concat([rootOrg], Lv1_org, Lv2_org);
     ctx.response.type = 'application/json';
-    ctx.response.body = Mock.mock({
+    ctx.response.body = {
       "code": 0,
       "message": "ok",
       "data": {
-        [`list|${params.limit}`]: [
-          {
-            "id": "@id",
-            "organization": "@ctitle(5,8)",
-            "total|1000-3000": 1,
-            "running": function () {
-              return parseInt(this.total * 0.7)
-            },
-            "abort": function () {
-              return parseInt(this.total * 0.01)
-            },
-            "repair": function () {
-              return parseInt(this.total * 0.03)
-            },
-            "notAcceptance": function () {
-              return parseInt(this.total * 0.1)
-            },
-            "scrap": function () {
-              return parseInt(this.total * 0.06)
-            },
-            "sparepart": function () {
-              return (
-                this.total - this.running - this.abort - this.repair - this.notAcceptance - this.scrap
-              )
-            },
-          }
-        ],
+        "list": list,
         "limit": 100,
         "offset": 0,
         "total": 30
       }
-    })
+    }
   },
-  [`POST /mock/user/v1/queryInstallList`](ctx) {
-    const params = ctx.request.body;
-    ctx.response.type = 'application/json';
-    ctx.response.body = Mock.mock({
-      "code": 0,
-      "message": "ok",
-      "data": {
-        [`list|${params.limit || 30}`]: [
-          {
-            "id": "@id",
-            "groupName": "@city()",
-            "onlineCount|1000-3000": 1,
-            "offlineCount|50-500": 1,
-          }
-        ],
-        "limit": 100,
-        "offset": 0,
-        "total": 30
-      }
-    })
-  }
 }
 
 module.exports = demoApi;
