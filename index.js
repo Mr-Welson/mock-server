@@ -4,33 +4,24 @@ var bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
 const mockApi = require('./mock');
 
-const { demo, operation, poga } = mockApi;
+const { demo } = mockApi;
 
 const app = new Koa();
 const router = new Router();
 
 const parseApi = (api) => {
   const splited = api.trim().replace(/\s+/g, ' ').split(' ');
-  if(splited.length === 1) {
-    return ['get', splited[0]]
+  if (splited.length === 1) {
+    return ['get', splited[0]];
   }
-  return [splited[0].toLowerCase(), splited[1]]
-}
+  return [splited[0].toLowerCase(), splited[1]];
+};
 
-demo && Object.keys(demo).forEach(api => {
-  const [method, url] = parseApi(api);
-  router[method](url, demo[api]);
-});
-
-operation && Object.keys(operation).forEach(api => {
-  const [method, url] = parseApi(api);
-  router[method](url, operation[api]);
-})
-
-poga && Object.keys(poga).forEach(api => {
-  const [method, url] = parseApi(api);
-  router[method](url, poga[api]);
-})
+demo &&
+  Object.keys(demo).forEach((api) => {
+    const [method, url] = parseApi(api);
+    router[method](url, demo[api]);
+  });
 
 app.use(cors());
 app.use(bodyParser()); // 解析请求参数
@@ -38,5 +29,5 @@ app.use(router.routes());
 
 const port = 5002;
 app.listen(port, () => {
-  console.log('mock server started on http://localhost:'+ port);
-})
+  console.log('mock server started on http://localhost:' + port);
+});
