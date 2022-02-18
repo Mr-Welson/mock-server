@@ -12,4 +12,4 @@ npm start
 
 ## 新建 mock-api
 
-在 `data` 文件夹下新加文件，按照 demo.js 格式编写模拟接口，模拟数据使用 [mock.js 语法](https://juejin.cn/post/7017642511816474661)
+在 `api` 文件夹下新加文件，按照 demo.js 格式编写模拟接口，模拟数据使用 [mock.js 语法](https://juejin.cn/post/7017642511816474661)

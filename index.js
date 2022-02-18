@@ -2,7 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
 const cors = require('koa-cors');
-const mockApi = require('./mock');
+const mockApi = require('./api');
 
 const { demo } = mockApi;
 
